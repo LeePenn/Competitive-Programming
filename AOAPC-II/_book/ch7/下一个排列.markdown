@@ -1,0 +1,46 @@
+```cpp
+// 可重集的全排列(next_permutation版)
+// Rujia Liu
+#include<cstdio>
+#include<algorithm>
+using namespace std;
+
+int main() {
+  int n, p[10];
+  scanf("%d", &n);
+  for(int i = 0; i < n; i++) scanf("%d", &p[i]);
+  sort(p, p+n); // 排序，得到p的最小排列
+  do {
+    for(int i = 0; i < n; i++) printf("%d ", p[i]); // 输出排列p
+    printf("\n");
+  } while(next_permutation(p, p+n)); // 求下一个排列
+  return 0;
+}
+```
+
+
+```cpp
+// Joker
+#include <bits/stdc++.h>
+using namespace std;
+
+const int N = 10;
+int n, a[N];
+
+int main() {
+  //std::ios::sync_with_stdio(false);
+  //std::cin.tie(0);
+  
+  while (scanf("%d", &n) == 1 && n) {
+    for (int i = 1; i <= n; i++) scanf("%d", &a[i]);
+    sort(a + 1, a + n + 1);
+    do {
+      for (int i = 1; i <= n; i++) printf("%d ", a[i]);
+      printf("\n");
+    } while (next_permutation(a + 1, a + n + 1));
+  }
+  
+  
+  return 0;
+}
+```

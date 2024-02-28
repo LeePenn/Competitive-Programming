@@ -46,7 +46,7 @@ int main() {
     
     dp[0][0][0] = 0;
     int t = 0;
-    // 从dp定义上， 第一本书一定不会放在level1
+    // 从dp定义上， 第一本书一定会放在level1
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j <= sumw[i + 1]; ++j) {
             for (int k = 0; k <= sumw[i + 1] - j; ++k) {
