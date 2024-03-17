@@ -28,9 +28,11 @@ int main() {
     for (int i = n - 1; i >= 0; --i) {
         for (int j = i + 1; j < n; ++j) {
             // cur ^ 1 => i + 1
+            // (i + 1, j) => (i, j)
             int &d0 = dp[cur][j][0];
             d0 = min(dp[cur ^ 1][j][0] + pos[i + 1] - pos[i], dp[cur ^ 1][j][1] + pos[j] - pos[i]);
             if (d0 >= dt[i]) d0 = INF;
+            // (i, j - 1) => (i, j)
             int &d1 = dp[cur][j][1];
             d1 = min(dp[cur][j - 1][0] + pos[j] - pos[i], dp[cur][j - 1][1] + pos[j] - pos[j - 1]);
             if (d1 >= dt[j]) d1 = INF;

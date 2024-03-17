@@ -11,36 +11,51 @@
 #define LL long long
 #define ULL unsigned long long
 using namespace std;
-const int N = 10000 + 3, INF = 0x3f3f3f3f;
-int n, dp[2][N][2];
-int pos[N], dt[N];
+const int N = 1000 + 4;
+string s, secret;
+int dp[N][10][10][10];
+int up(int a, int b) {
+    return (a + b) % 10;
+}
+int down(int a, int b) {
+    return (a - b + 20) % 10;
+}
+int DP(int cur, int i0, int i1, int i2) {
+    int &ans = dp[cur][i0][i1][i2];
+    if (ans >= 0) return ans;
+    int tcur = secret[cur] - '0';
+    if (cur == s.length() - 1) return ans = min((tcur - i0 + 10) % 10, (i0 - tcur + 10) % 10);
+    int s3 = cur + 3 > s.length() - 1 ? 0 : s[cur + 3] - '0';
+    if (i0 == tcur) return DP(cur + 1, i1, i2, s3);
+    
+    ans = 0x3f3f3f3f;
+    // rotate up
+    int kup = (tcur - i0 + 10) % 10;
+    for (int k1 = 0; k1 <= kup; ++k1) {
+        for (int k2 = 0; k2 <= k1; ++k2) {
+            ans = min(ans, kup + DP(cur + 1, up(i1, k1), up(i2, k2), s3));
+        }
+    }
+    // rotate down
+    int kdown = (i0 - tcur + 10) % 10;
+    for (int k1 = 0; k1 <= kdown; ++k1) {
+        for (int k2 = 0; k2 <= k1; ++k2) {
+            ans = min(ans, kdown + DP(cur + 1, down(i1, k1), down(i2, k2), s3));
+        }
+    }
+    return ans;
+}
 int main() {
   // ios::sync_with_stdio(false);
   // cin.tie(0);
   
-  while (cin >> n && n) {
-    for (int i = 0; i < n; ++i) {
-        cin >> pos[i] >> dt[i];
+  while (cin >> s >> secret) {
+    while (s.length() < 3) {
+        s.push_back('0');
+        secret.push_back('0');
     }
-    // dp[i][j][0] 在 i 并拿完 i - j所有财宝的最少时间
-    memset(dp, 0, sizeof(dp));
-    int cur = 0;
-    for (int i = n - 1; i >= 0; --i) {
-        for (int j = i + 1; j < n; ++j) {
-            // cur ^ 1 => i + 1
-            int &d0 = dp[cur][j][0];
-            d0 = min(dp[cur ^ 1][j][0] + pos[i + 1] - pos[i], dp[cur ^ 1][j][1] + pos[j] - pos[i]);
-            if (d0 >= dt[i]) d0 = INF;
-            int &d1 = dp[cur][j][1];
-            d1 = min(dp[cur][j - 1][0] + pos[j] - pos[i], dp[cur][j - 1][1] + pos[j] - pos[j - 1]);
-            if (d1 >= dt[j]) d1 = INF;
-        }
-        cur ^= 1;
-    }
-    int ans = min(dp[cur ^ 1][n - 1][0], dp[cur ^ 1][n - 1][1]);
-    if (ans == INF) cout << "No solution" << endl;
-    else cout << ans << endl;
-    
+    memset(dp, -1, sizeof(dp));
+    printf("%d\n", DP(0, s[0] - '0', s[1] - '0', s[2] - '0'));
   }
   
   
