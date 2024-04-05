@@ -15,14 +15,9 @@ const int INF = 0x3f3f3f3f, MAXN = 104;
 string S, Fold[MAXN][MAXN];
 
 int main(){
-    vector<pair<int, int>> D;
-    D.push_back(make_pair(0, 1));
-    D.push_back(make_pair(1, 1));
     
-    sort(D.begin(), D.end());
-    D.resize(unique(D.begin(), D.end()) - D.begin());
     
-    printf("%d\n", D.size());
+    printf("%04d\n", 1);
     
     
 }
