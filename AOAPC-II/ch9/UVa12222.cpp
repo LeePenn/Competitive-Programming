@@ -23,6 +23,28 @@ int solve() {
   memset(dp, 0x3f, sizeof(dp));
   dp[0][0][0] = dp[0][0][1] = 0;
   
+  for (int i = 0; i <= n0; ++i) {
+    for (int j = 0; j <= n1; ++j) {
+      int st = dp[i][j][1], ed = 0;
+      
+      for (int k = i + 1; k <= n0; ++k) {
+        st = max(st, t0[k]);
+        ed = max(st + d0[k], ed);
+        dp[k][j][0] = min(dp[k][j][0], ed);
+        st += 10, ed += 10;
+      }
+      
+      st = dp[i][j][0], ed = 0;
+      for (int k = j + 1; k <= n1; ++k) {
+        st = max(st, t1[k]);
+        ed = max(st + d1[k], ed);
+        dp[i][k][1] = min(dp[i][k][1], ed);
+        st += 10, ed += 10;
+      }
+    }
+  }
+  
+  return min(dp[n0][n1][0], dp[n0][n1][1]);
 }
 int main() {
   // ios::sync_with_stdio(false);

@@ -31,7 +31,7 @@ int solve() {
     memset(vis, 0, sizeof(vis));
     for (int i = 0; i < n; i++) {
       if (!open[i] && !vis[i]) {
-        if (++connected > oc + 1 || !dfs(i, -1)) { // 没个打开的环只能连最多oc + 1个连通分量
+        if (++connected > oc + 1 || !dfs(i, -1)) { // 每个打开的环只能连最多oc + 1个连通分量
           valid = false;
           break;
         }
